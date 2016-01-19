@@ -100,7 +100,9 @@ namespace lime {
 ///////////////////////////////////////////////////////////////////////////////
 
 #ifndef _MSC_VER // [
+#ifndef __MINGW32__ /* mingw support -> ignoring error */
 #error "Use this header only with Microsoft Visual C++ compilers!"
+#endif /* end mingw support */
 #endif // _MSC_VER ]
 
 #ifndef _MSC_STDINT_H_ // [
@@ -203,6 +205,7 @@ typedef uint64_t  uintmax_t;
 #if !defined(__cplusplus) || defined(__STDC_LIMIT_MACROS) // [   See footnote 220 at page 257 and footnote 221 at page 259
 
 // 7.18.2.1 Limits of exact-width integer types
+#ifndef __MINGW32__ /* mingw support -> got those in headers */
 #define INT8_MIN     ((int8_t)_I8_MIN)
 #define INT8_MAX     _I8_MAX
 #define INT16_MIN    ((int16_t)_I16_MIN)
@@ -215,6 +218,7 @@ typedef uint64_t  uintmax_t;
 #define UINT16_MAX   _UI16_MAX
 #define UINT32_MAX   _UI32_MAX
 #define UINT64_MAX   _UI64_MAX
+#endif /* end mingw support */
 
 // 7.18.2.2 Limits of minimum-width integer types
 #define INT_LEAST8_MIN    INT8_MIN
@@ -261,6 +265,7 @@ typedef uint64_t  uintmax_t;
 #define UINTMAX_MAX  UINT64_MAX
 
 // 7.18.3 Limits of other integer types
+#ifndef __MINGW32__ /* mingw support -> got those in headers */
 
 #ifdef _WIN64 // [
 #  define PTRDIFF_MIN  _I64_MIN
@@ -272,6 +277,8 @@ typedef uint64_t  uintmax_t;
 
 #define SIG_ATOMIC_MIN  INT_MIN
 #define SIG_ATOMIC_MAX  INT_MAX
+
+#endif /* end mingw support */
 
 #ifndef SIZE_MAX // [
 #  ifdef _WIN64 // [
@@ -289,8 +296,10 @@ typedef uint64_t  uintmax_t;
 #  define WCHAR_MAX  _UI16_MAX
 #endif  // WCHAR_MAX ]
 
+#ifndef __MINGW32__ /* mingw support -> got in headers */
 #define WINT_MIN  0
 #define WINT_MAX  _UI16_MAX
+#endif /* end mingw support */
 
 #endif // __STDC_LIMIT_MACROS ]
 
@@ -300,7 +309,7 @@ typedef uint64_t  uintmax_t;
 #if !defined(__cplusplus) || defined(__STDC_CONSTANT_MACROS) // [   See footnote 224 at page 260
 
 // 7.18.4.1 Macros for minimum-width integer constants
-
+#ifndef __MINGW32__ /* mingw support -> got those also */
 #define INT8_C(val)  val##i8
 #define INT16_C(val) val##i16
 #define INT32_C(val) val##i32
@@ -310,6 +319,7 @@ typedef uint64_t  uintmax_t;
 #define UINT16_C(val) val##ui16
 #define UINT32_C(val) val##ui32
 #define UINT64_C(val) val##ui64
+#endif /* end mingw support */
 
 // 7.18.4.2 Macros for greatest-width integer constants
 // These #ifndef's are needed to prevent collisions with <boost/cstdint.hpp>.
