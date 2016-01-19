@@ -49,6 +49,7 @@
 		<compilerflag value="-msse2" if="mingw"/>
 		<compilerflag value="-msse3" if="mingw"/>
 		<compilerflag value="-mmmx" if="mingw"/>
+		<compilerflag value="-DWINVER=0x0502" if="mingw"/>
 		
 		<file name="src/ExternalInterface.cpp" />
 		
