@@ -37,10 +37,14 @@ class WindowsPlatform extends PlatformTarget {
 		
 		super (command, _project, targetFlags);
 		
-		if (project.targetFlags.exists ("neko") || project.target != PlatformHelper.hostPlatform) {
+		if (project.targetFlags.exists ("neko")) {
 			
 			targetType = "neko";
 			
+		} else if (project.target != PlatformHelper.hostPlatform && PlatformHelper.hostPlatform != Platform.LINUX){
+
+			targetType = "neko";
+
 		} else if (project.targetFlags.exists ("nodejs")) {
 		
 			targetType = "nodejs";
