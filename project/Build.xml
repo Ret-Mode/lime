@@ -295,7 +295,7 @@
 			
 			<section if="mingw">
 				
-				<lib name="-lmingw32" />
+				<!--lib name="-lmingw32" /-->
 				<lib name="-lgdi32" />
 				<lib name="-lopengl32" />
 				<lib name="-luser32" />
