@@ -44,6 +44,12 @@
 		
 		<compilerflag value="-Iinclude" />
 		
+		<compilerflag value="-std=gnu++11" if="mingw"/>
+		<compilerflag value="-msse" if="mingw"/>
+		<compilerflag value="-msse2" if="mingw"/>
+		<compilerflag value="-msse3" if="mingw"/>
+		<compilerflag value="-mmmx" if="mingw"/>
+		
 		<file name="src/ExternalInterface.cpp" />
 		
 		<section if="LIME_CAIRO">
@@ -287,7 +293,28 @@
 			<ext value=".so" />
 			<ext value=".ndll" if="windows || mac || linux" />
 			
-			<section if="windows">
+			<section if="mingw">
+				
+				<lib name="-lmingw32" />
+				<lib name="-lgdi32" />
+				<lib name="-lopengl32" />
+				<lib name="-luser32" />
+				<lib name="-lkernel32" />
+				<lib name="-ladvapi32" />
+				<lib name="-lwinmm" />
+				<lib name="-limm32"  />
+				<lib name="-lole32" />
+				<lib name="-loleaut32" />
+				<lib name="-lversion" />
+				<lib name="-lws2_32"  />
+				<lib name="-lwldap32" />
+				<lib name="-lshell32" />
+				<lib name="-lcomdlg32" />        
+				<lib name="-luuid" />        
+      
+			</section>
+			
+			<section if="windows" unless="mingw">
 				
 				<lib name="gdi32.lib" />
 				<lib name="opengl32.lib" />
