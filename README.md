@@ -30,6 +30,10 @@ Installation
 
     haxelib run lime rebuild windows -Dmingw
     
+3a If hxcpp runs MSVC toolchain, try:
+
+    haxelib run lime rebuild windows -Dmingw -Dtoolchain=mingw
+
 4 Build for 64 bits:
 
     haxelib run lime rebuild windows -Dmingw -64 -DHXCPP_M64
