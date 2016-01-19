@@ -132,8 +132,23 @@ class WindowsPlatform extends PlatformTarget {
 			
 			var haxeArgs = [ hxml ];
 			var flags = [];
-			
-			flags.push ("-DHXCPP_M32");
+			var is32 = true;
+             
+			for(str in targetFlags.keys()){
+				if(str == "64"){
+					is32 = false;
+				}
+			}
+          
+			if(is32){
+ 			
+ 				flags.push ("-DHXCPP_M32");
+				
+			} else {
+				
+				flags.push ("-DHXCPP_M64");
+				
+			}
 			
 			if (!project.environment.exists ("SHOW_CONSOLE")) {
 				
