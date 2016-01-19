@@ -229,6 +229,20 @@ class FileHelper {
 	
 	public static function copyLibrary (project:HXProject, ndll:NDLL, directoryName:String, namePrefix:String, nameSuffix:String, targetDirectory:String, allowDebug:Bool = false, targetSuffix:String = null) {
 		
+		if(project.host == Platform.WINDOWS){
+     			
+     			for(str in project.targetFlags.keys()){
+           		
+				if(str == "64"){
+				
+					directoryName += "64";
+           			
+           			}
+        			
+        		}
+		
+		}
+		
 		var path = PathHelper.getLibraryPath (ndll, directoryName, namePrefix, nameSuffix, allowDebug);
 		
 		if (FileSystem.exists (path)) {
