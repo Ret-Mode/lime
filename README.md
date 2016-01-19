@@ -54,4 +54,4 @@ TDM-GCC-64 recent version
 Other versions
 ==============
 
-GCC-TDM-32 and MinGW-w64 targeting 32 bit architectures got segmentation fault in _pei386_runtime_relocator, which I guess is fault of those versions of MinGW itself.
+Applications compiled with GCC-TDM-32 and MinGW-w64 targeting 32 bit architectures got segmentation fault in _pei386_runtime_relocator, which I guess is fault of those versions of MinGW itself.
