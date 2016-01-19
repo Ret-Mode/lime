@@ -47,6 +47,7 @@ MinGW 4.8.2 from QT online installer
 
 64bit:
 MinGW-w64 recent version
+
 TDM-GCC-64 recent version
 
 
