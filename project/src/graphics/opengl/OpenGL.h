@@ -57,7 +57,7 @@
 #elif defined (HX_WINDOWS)
 
 #include <windows.h>
-#include <gl/GL.h>
+#include <GL/gl.h>
 typedef ptrdiff_t GLsizeiptrARB;
 #define NEED_EXTENSIONS
 #define DYNAMIC_OGL
