@@ -1,48 +1,48 @@
-[submodule "project/lib/vorbis"]
-	path = project/lib/vorbis
-	url = https://github.com/native-toolkit/vorbis
-[submodule "project/lib/sdl"]
-	path = project/lib/sdl
-	url = https://github.com/native-toolkit/sdl
-[submodule "project/lib/openal"]
-	path = project/lib/openal
-	url = https://github.com/native-toolkit/openal
-[submodule "project/lib/curl"]
-	path = project/lib/curl
-	url = https://github.com/native-toolkit/curl
-[submodule "project/lib/ogg"]
-	path = project/lib/ogg
-	url = https://github.com/native-toolkit/ogg
-[submodule "project/lib/zlib"]
-	path = project/lib/zlib
-	url = https://github.com/native-toolkit/zlib
-[submodule "project/lib/neko"]
-	path = project/lib/neko
-	url = https://github.com/native-toolkit/neko
-[submodule "project/lib/png"]
-	path = project/lib/png
-	url = https://github.com/native-toolkit/png
-[submodule "project/lib/jpeg"]
-	path = project/lib/jpeg
-	url = https://github.com/native-toolkit/jpeg
-[submodule "project/lib/freetype"]
-	path = project/lib/freetype
-	url = https://github.com/native-toolkit/freetype
-[submodule "project/lib/harfbuzz"]
-	path = project/lib/harfbuzz
-	url = https://github.com/native-toolkit/harfbuzz
-[submodule "project/lib/openal-android"]
-	path = project/lib/openal-android
-	url = https://github.com/native-toolkit/openal-android
 [submodule "project/lib/cairo"]
 	path = project/lib/cairo
-	url = https://github.com/native-toolkit/cairo
-[submodule "project/lib/pixman"]
-	path = project/lib/pixman
-	url = https://github.com/native-toolkit/pixman
+	url = https://github.com/RetardMode/cairo
+[submodule "project/lib/curl"]
+	path = project/lib/curl
+	url = https://github.com/RetardMode/curl
+[submodule "project/lib/freetype"]
+	path = project/lib/freetype
+	url = https://github.com/RetardMode/freetype
+[submodule "project/lib/harfbuzz"]
+	path = project/lib/harfbuzz
+	url = https://github.com/RetardMode/harfbuzz
+[submodule "project/lib/jpeg"]
+	path = project/lib/jpeg
+	url = https://github.com/RetardMode/jpeg
 [submodule "project/lib/lzma"]
 	path = project/lib/lzma
-	url = https://github.com/native-toolkit/lzma
+	url = https://github.com/RetardMode/lzma
+[submodule "project/lib/neko"]
+	path = project/lib/neko
+	url = https://github.com/RetardMode/neko
 [submodule "project/lib/nfd"]
 	path = project/lib/nfd
-	url = https://github.com/native-toolkit/nfd
+	url = https://github.com/RetardMode/nfd
+[submodule "project/lib/ogg"]
+	path = project/lib/ogg
+	url = https://github.com/RetardMode/ogg
+[submodule "project/lib/openal"]
+	path = project/lib/openal
+	url = https://github.com/RetardMode/openal
+[submodule "project/lib/openal-android"]
+	path = project/lib/openal-android
+	url = https://github.com/RetardMode/openal-android
+[submodule "project/lib/pixman"]
+	path = project/lib/pixman
+	url = https://github.com/RetardMode/pixman
+[submodule "project/lib/png"]
+	path = project/lib/png
+	url = https://github.com/RetardMode/png
+[submodule "project/lib/sdl"]
+	path = project/lib/sdl
+	url = https://github.com/RetardMode/sdl
+[submodule "project/lib/vorbis"]
+	path = project/lib/vorbis
+	url = https://github.com/RetardMode/vorbis
+[submodule "project/lib/zlib"]
+	path = project/lib/zlib
+	url = https://github.com/RetardMode/zlib
