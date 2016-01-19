@@ -70,7 +70,7 @@ A: Lime.ndll in 32 bits is needed for compilation script, even for 64 bit target
 
 Q: I've compiled lime for 32 and 64 bits with MinGW, and now compiling apps does not work. I got various errors about missing libs, what's wrong?
 
-A: If You've comiled with MinGW-w64, lime.ndll will be linked with shared versions of lib-gcc and lib-stdc++. It should be that way, becouse linking those libraries statically will force You to follow GPL license for those libs, and in fact, in Your application. MinGW-w64 by default is linking those libs dynamically, but, as side effect, those libraries should be somewhere in Your PATH. Usually You will have Your Mingw bin folder in PATH, but if not, You may encounter various errors. Important thing to note is that, You need to have in PATH libraries for 32 bit, not for 64 bit. Build process uses 32 bit version of lime.ndll, so 32 bit versions of those libs should be accesible.
+A: If You've comiled with MinGW-w64, lime.ndll will be linked with shared versions of lib-gcc and lib-stdc++. It should be that way, becouse linking those libraries statically will force You to follow GPL license for those libs, and in fact, in Your application. MinGW-w64 by default is linking those libs dynamically, but, as side effect, those libraries should be somewhere in Your PATH. Usually You will have Your Mingw bin folder in PATH, but if not, You may encounter various errors. Important thing to note is that, You need to have in PATH libraries for 32 bit, not for 64 bit. Build process uses 32 bit version of lime.ndll, so 32 bit versions of those libs should be accesible. On the other hand, TDM-GCC have those libs linked statically, so I think the best solution would be to pass "-shared-libgcc -shared-listdc++" into linker while compiling with it.
 
 Q: So, for 64 bit target, shouldn't be 64 bit versions of gcc and std libs accesible also?
 
@@ -82,10 +82,14 @@ folder, and App should work. Alternatively, You can copy missing libs from 64 bi
     hxcpp/$(version)/toolchain/mingw-toolchain.xml
 lines:
  
-    <copyFile toolId="exe" name="libgcc_s_dw2-1.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
+    <copyFile toolId="exe" name="libstdc++-6.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
 
 into:
 
-    <copyFile toolId="exe" name="../bin/libgcc_s_dw2-1.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
+    <copyFile toolId="exe" name="../bin/libstdc++-6.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
 
-etc.
+etc. This way those libs should be in Your app folder.
+
+Q: I'm missing shlobj.h or shobjinl.h.
+
+A: Recent compiler versions should have that header.
