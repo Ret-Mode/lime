@@ -3,7 +3,7 @@
 
 #ifdef HX_WINDOWS
 #include <SDL_syswm.h>
-#include <Windows.h>
+#include <windows.h>
 #undef CreateWindow
 #endif
 
