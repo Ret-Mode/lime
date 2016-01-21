@@ -9,8 +9,13 @@ namespace nme {
 	
 	bool LaunchBrowser(const char *inUtf8URL)
 	{
+		#ifdef HXCPP_M64
+		long long result;
+		result=(long long)ShellExecute(NULL, "open", inUtf8URL, NULL, NULL, SW_SHOWDEFAULT);
+		#else
 		int result;
 		result=(int)ShellExecute(NULL, "open", inUtf8URL, NULL, NULL, SW_SHOWDEFAULT);
+		#endif
 		return (result>32);
 	}
 
