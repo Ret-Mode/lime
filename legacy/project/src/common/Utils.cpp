@@ -2,7 +2,7 @@
 
 #ifdef HX_WINDOWS
 #include <windows.h>
-#include <Shlobj.h>
+#include <shlobj.h>
 #include <time.h>
 #elif defined(EPPC)
 #include <time.h>
