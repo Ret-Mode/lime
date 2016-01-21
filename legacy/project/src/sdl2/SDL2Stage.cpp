@@ -14,7 +14,7 @@
 
 #ifdef HX_WINDOWS
 #include <SDL_syswm.h>
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 
@@ -1595,7 +1595,11 @@ void CreateMainFrame(FrameCreationCallback inOnFrame, int inWidth, int inHeight,
          if (SDL_GetWindowWMInfo(window, &wminfo) == 1)
          {
             HWND hwnd = wminfo.info.win.window;
-            ::SetClassLong(hwnd, GCL_HICON, reinterpret_cast<LONG>(icon));
+            #ifdef HXCPP_M64
+            ::SetClassLong(hwnd, GCLP_HICON, reinterpret_cast<long long>(icon));
+            #else
+	    ::SetClassLong(hwnd, GCL_HICON, reinterpret_cast<LONG>(icon));
+	    #endif
          }
       }
       #endif
