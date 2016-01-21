@@ -36,6 +36,7 @@ class WindowsPlatform extends PlatformTarget {
 	public function new (command:String, _project:HXProject, targetFlags:Map <String, String> ) {
 		
 		super (command, _project, targetFlags);
+		var arch = "/";
 		
 		if (project.targetFlags.exists ("neko")) {
 			
@@ -55,7 +56,13 @@ class WindowsPlatform extends PlatformTarget {
 			
 		}
 		
-		targetDirectory = project.app.path + "/windows/" + targetType;
+		for(str in targetFlags.keys()){
+			if(str == "64"){
+				arch = "64/";
+			}
+		}
+		
+		targetDirectory = project.app.path + "/windows" + arch + targetType;
 		applicationDirectory = targetDirectory + "/bin/";
 		executablePath = applicationDirectory + project.app.file + ".exe";
 		
@@ -181,11 +188,19 @@ class WindowsPlatform extends PlatformTarget {
 			
 			var iconPath = PathHelper.combine (applicationDirectory, "icon.ico");
 			
-			if (IconHelper.createWindowsIcon (icons, iconPath) && PlatformHelper.hostPlatform == Platform.WINDOWS) {
+			if (IconHelper.createWindowsIcon (icons, iconPath)) {
 				
 				var templates = [ PathHelper.getHaxelib (new Haxelib ("lime")) + "/templates" ].concat (project.templatePaths);
-				ProcessHelper.runCommand ("", PathHelper.findTemplate (templates, "bin/ReplaceVistaIcon.exe"), [ executablePath, iconPath, "1" ], true, true);
 				
+				if (PlatformHelper.hostPlatform == Platform.WINDOWS){
+					
+					ProcessHelper.runCommand ("", PathHelper.findTemplate (templates, "bin/ReplaceVistaIcon.exe"), [ executablePath, iconPath, "1" ], true, true);
+					
+				} else {
+				
+					ProcessHelper.runCommand ("", "wine", [ PathHelper.findTemplate (templates, "bin/ReplaceVistaIcon.exe"), executablePath, iconPath, "1" ], true, true);
+					
+				}
 			}
 			
 		}
