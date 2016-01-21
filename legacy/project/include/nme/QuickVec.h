@@ -3,6 +3,9 @@
 
 #include <algorithm>
 #include <memory.h>
+#ifdef __MINGW32__
+#include <string.h>
+#endif
 #include <stdlib.h>
 
 namespace nme
