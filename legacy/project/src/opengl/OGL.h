@@ -71,7 +71,7 @@
 
 // Windows ....
 #include <windows.h>
-#include <gl/GL.h>
+#include <GL/gl.h>
 //#define FORCE_NON_PO2
 #ifdef __MINGW32__
 #include <stddef.h>
