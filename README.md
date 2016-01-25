@@ -82,11 +82,15 @@ MinGW versions support
 ======================
 
 32bit:
+
 MinGW 4.8.2 from QT online installer
+
 TDM-GCC-64 targeting 32 bit, recent version
 
 64bit:
+
 MinGW-w64 recent version
+
 TDM-GCC-64 recent version
 
 
