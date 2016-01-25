@@ -77,6 +77,8 @@ Installation on Linux for crosscompilation
     haxelib run lime build windows -Dmingw -64
     haxelib run lime build windows -Dmingw -32
     
+5 If You have WINE installed, You should have Your app icon swapped. If not, app will have native icon, but will work 
+    
 
 MinGW versions support
 ======================
