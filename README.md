@@ -15,8 +15,8 @@ License
 Lime is free, open-source software under the [MIT license](LICENSE.md).
 
 
-Installation
-============
+Installation on Win
+===================
 
 1 Clone repository
 
@@ -25,6 +25,10 @@ Installation
 2 Setup:
 
     haxelib dev lime lime
+    
+2a Rebuild tools (from lime/${version}/tools folder):
+
+    haxe tools.hxml
     
 3 Make sure You have proper hxcpp configuration; build first for Win 32 bit (will be needed even for 64 bit targets):
 
@@ -43,22 +47,53 @@ Installation
     haxelib run lime build windows -Dmingw -64
 
 
+Installation on Linux for crosscompilation
+==========================================
+
+1 Clone repository
+
+    git clone --recursive https://github.com/RetardMode/lime
+
+2 Setup:
+
+    haxelib dev lime lime
+    
+2a Rebuild tools (from lime/${version}/tools folder):
+
+    haxe tools.hxml
+    
+3 First build for Your linux architecture:
+
+    haxelib run lime rebuild linux -DHXCPP_M32 -32
+    haxelib run lime rebuild linux -DHXCPP_M64 -64
+
+3a Build lime for MinGW, also choose Your MinGW arch:
+
+    haxelib run lime rebuild windows -Dmingw -DHXCPP_M32 -32
+    haxelib run lime rebuild windows -Dmingw -DHXCPP_M64 -64
+    
+4 Build projects for Your arch:
+
+    haxelib run lime build windows -Dmingw -64
+    haxelib run lime build windows -Dmingw -32
+    
+
 MinGW versions support
 ======================
 
 32bit:
 MinGW 4.8.2 from QT online installer
+TDM-GCC-64 targeting 32 bit, recent version
 
 64bit:
 MinGW-w64 recent version
-
 TDM-GCC-64 recent version
 
 
 Other versions
 ==============
 
-Applications compiled with GCC-TDM-32 and MinGW-w64 targeting 32 bit architectures got segmentation fault in _pei386_runtime_relocator, which I guess is fault of those versions of MinGW itself.
+Applications compiled with MinGW-w64 targeting 32 bit architectures got segmentation fault in _pei386_runtime_relocator, which I guess is fault of those versions of MinGW itself.
 
 
 Potential problems
