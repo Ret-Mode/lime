@@ -28,6 +28,7 @@
 #include <system/System.h>
 #include <text/Font.h>
 #include <text/TextLayout.h>
+#include <ui/DropEvent.h>
 #include <ui/FileDialog.h>
 #include <ui/Gamepad.h>
 #include <ui/GamepadEvent.h>
@@ -246,7 +247,13 @@ namespace lime {
 		
 		if (Clipboard::HasText ()) {
 			
-			return alloc_string (Clipboard::GetText ());
+			const char* text = Clipboard::GetText ();
+			value _text = alloc_string (text);
+			
+			// TODO: Should we free for all backends? (SDL requires it)
+			
+			free ((char*)text);
+			return _text;
 			
 		} else {
 			
@@ -264,11 +271,30 @@ namespace lime {
 	}
 	
 	
+	void lime_drop_event_manager_register (value callback, value eventObject) {
+		
+		DropEvent::callback = new AutoGCRoot (callback);
+		DropEvent::eventObject = new AutoGCRoot (eventObject);
+		
+	}
+	
+	
 	value lime_file_dialog_open_directory (HxString filter, HxString defaultPath) {
 		
 		#ifdef LIME_NFD
 		const char* path = FileDialog::OpenDirectory (filter.__s, defaultPath.__s);
-		return path ? alloc_string (path) : alloc_null ();
+		
+		if (path) {
+			
+			value _path = alloc_string (path);
+			free ((char*) path);
+			return _path;
+			
+		} else {
+			
+			return alloc_null ();
+			
+		}
 		#endif
 		
 		return 0;
@@ -279,7 +305,18 @@ namespace lime {
 		
 		#ifdef LIME_NFD
 		const char* path = FileDialog::OpenFile (filter.__s, defaultPath.__s);
-		return path ? alloc_string (path) : alloc_null ();
+		
+		if (path) {
+			
+			value _path = alloc_string (path);
+			free ((char*) path);
+			return _path;
+			
+		} else {
+			
+			return alloc_null ();
+			
+		}
 		#endif
 		
 		return 0;
@@ -298,6 +335,7 @@ namespace lime {
 		for (int i = 0; i < files.size (); i++) {
 			
 			val_array_set_i (result, i, alloc_string (files[i]));
+			free ((char*)files[i]);
 			
 		}
 		#else
@@ -313,7 +351,18 @@ namespace lime {
 		
 		#ifdef LIME_NFD
 		const char* path = FileDialog::SaveFile (filter.__s, defaultPath.__s);
-		return path ? alloc_string (path) : alloc_null ();
+		
+		if (path) {
+			
+			value _path = alloc_string (path);
+			free ((char*) path);
+			return _path;
+			
+		} else {
+			
+			return alloc_null ();
+			
+		}
 		#endif
 		
 		return 0;
@@ -1148,7 +1197,26 @@ namespace lime {
 	value lime_system_get_directory (int type, HxString company, HxString title) {
 		
 		const char* path = System::GetDirectory ((SystemDirectory)type, company.__s, title.__s);
-		return path ? alloc_string (path) : alloc_null ();
+		
+		if (path) {
+			
+			value _path = alloc_string (path);
+			
+			if (type != 4) {
+				
+				// TODO: Make this more consistent
+				
+				free ((char*) path);
+				
+			}
+			
+			return _path;
+			
+		} else {
+			
+			return alloc_null ();
+			
+		}
 		
 	}
 	
@@ -1405,10 +1473,18 @@ namespace lime {
 	}
 	
 	
-	bool lime_window_set_minimized (value window, bool fullscreen) {
+	bool lime_window_set_maximized (value window, bool maximized) {
+		
+		Window* targetWindow = (Window*)val_data(window);
+		return targetWindow->SetMaximized (maximized);
+		
+	}
+	
+	
+	bool lime_window_set_minimized (value window, bool minimized) {
 		
 		Window* targetWindow = (Window*)val_data (window);
-		return targetWindow->SetMinimized (fullscreen);
+		return targetWindow->SetMinimized (minimized);
 		
 	}
 	
@@ -1425,7 +1501,18 @@ namespace lime {
 		
 		Window* targetWindow = (Window*)val_data (window);
 		const char* result = targetWindow->SetTitle (title.__s);
-		return result ? alloc_string (result) : alloc_null ();
+		
+		if (result) {
+			
+			value _result = alloc_string (result);
+			free ((char*) result);
+			return _result;
+			
+		} else {
+			
+			return alloc_null ();
+			
+		}
 		
 	}
 	
@@ -1445,6 +1532,7 @@ namespace lime {
 	DEFINE_PRIME1 (lime_cffi_set_finalizer);
 	DEFINE_PRIME0 (lime_clipboard_get_text);
 	DEFINE_PRIME1v (lime_clipboard_set_text);
+	DEFINE_PRIME2v (lime_drop_event_manager_register);
 	DEFINE_PRIME2 (lime_file_dialog_open_directory);
 	DEFINE_PRIME2 (lime_file_dialog_open_file);
 	DEFINE_PRIME2 (lime_file_dialog_open_files);
@@ -1548,6 +1636,7 @@ namespace lime {
 	DEFINE_PRIME2v (lime_window_set_enable_text_events);
 	DEFINE_PRIME2 (lime_window_set_fullscreen);
 	DEFINE_PRIME2v (lime_window_set_icon);
+	DEFINE_PRIME2 (lime_window_set_maximized);
 	DEFINE_PRIME2 (lime_window_set_minimized);
 	DEFINE_PRIME2 (lime_window_set_resizable);
 	DEFINE_PRIME2 (lime_window_set_title);
