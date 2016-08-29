@@ -31,12 +31,12 @@ class WindowsPlatform extends PlatformTarget {
 	private var applicationDirectory:String;
 	private var executablePath:String;
 	private var targetType:String;
-	
+	private var is64:Bool;
 	
 	public function new (command:String, _project:HXProject, targetFlags:Map <String, String> ) {
 		
 		super (command, _project, targetFlags);
-		var arch = "/";
+		is64 = false;
 		
 		if (project.targetFlags.exists ("neko")) {
 			
@@ -56,13 +56,16 @@ class WindowsPlatform extends PlatformTarget {
 			
 		}
 		
-		for(str in targetFlags.keys()){
+     	for(str in project.targetFlags.keys()){
+           		
 			if(str == "64"){
-				arch = "64/";
-			}
+				
+				is64 = true;
+        			
+        	}
 		}
 		
-		targetDirectory = project.app.path + "/windows" + arch + targetType;
+		targetDirectory = project.app.path + "/windows" + (is64 ? "64" : "") + "/" + targetType;
 		applicationDirectory = targetDirectory + "/bin/";
 		executablePath = applicationDirectory + project.app.file + ".exe";
 		
@@ -102,7 +105,7 @@ class WindowsPlatform extends PlatformTarget {
 			
 			for (ndll in project.ndlls) {
 				
-				FileHelper.copyLibrary (project, ndll, "Windows", "", (ndll.haxelib != null && (ndll.haxelib.name == "hxcpp" || ndll.haxelib.name == "hxlibc")) ? ".dll" : ".ndll", applicationDirectory, project.debug);
+				FileHelper.copyLibrary (project, ndll, "Windows" + (is64 ? "64" : ""), "", (ndll.haxelib != null && (ndll.haxelib.name == "hxcpp" || ndll.haxelib.name == "hxlibc")) ? ".dll" : ".ndll", applicationDirectory, project.debug);
 				
 			}
 			
@@ -143,21 +146,18 @@ class WindowsPlatform extends PlatformTarget {
 			
 			var haxeArgs = [ hxml ];
 			var flags = [];
-			var is32 = true;
-             
-			for(str in targetFlags.keys()){
-				if(str == "64"){
-					is32 = false;
-				}
-			}
-          
-			if(is32){
- 			
- 				flags.push ("-DHXCPP_M32");
+
+			if(is64){
+			
+ 				haxeArgs.push ("-D");
+				haxeArgs.push ("HXCPP_M64");
+ 				flags.push ("-DHXCPP_M64");
 				
 			} else {
-				
-				flags.push ("-DHXCPP_M64");
+			
+				haxeArgs.push ("-D");
+				haxeArgs.push ("HXCPP_M32");
+				flags.push ("-DHXCPP_M32");
 				
 			}
 			
@@ -256,7 +256,7 @@ class WindowsPlatform extends PlatformTarget {
 		context.NEKO_FILE = targetDirectory + "/obj/ApplicationMain.n";
 		context.NODE_FILE = targetDirectory + "/bin/ApplicationMain.js";
 		context.CPP_DIR = targetDirectory + "/obj";
-		context.BUILD_DIR = project.app.path + "/windows";
+		context.BUILD_DIR = project.app.path + "/windows" + (is64 ? "64" : "");
 		
 		return context;
 		
@@ -265,6 +265,8 @@ class WindowsPlatform extends PlatformTarget {
 	
 	public override function rebuild ():Void {
 		
+		var commands = [];
+
 		if (project.environment.exists ("VS110COMNTOOLS") && project.environment.exists ("VS100COMNTOOLS")) {
 			
 			project.environment.set ("HXCPP_MSVC", project.environment.get ("VS100COMNTOOLS"));
@@ -272,7 +274,17 @@ class WindowsPlatform extends PlatformTarget {
 			
 		}
 		
-		CPPHelper.rebuild (project, [[ "-Dwindows" ]]);
+		if (targetFlags.exists ("64")){
+		
+			commands.push ([ "-DWindows", "-DHXCPP_M64" ]);
+		
+		} else {
+		
+			commands.push ([ "-DWindows", "-DHXCPP_M32" ]);
+		
+		}
+		
+		CPPHelper.rebuild (project, commands);
 		
 	}
 	
@@ -334,7 +346,7 @@ class WindowsPlatform extends PlatformTarget {
 				
 				if (ndll.path == null || ndll.path == "") {
 					
-					context.ndlls[i].path = PathHelper.getLibraryPath (ndll, "Windows", "lib", ".lib", project.debug);
+					context.ndlls[i].path = PathHelper.getLibraryPath (ndll, "Windows" + (is64 ? "64" : ""), "lib", ".lib", project.debug);
 					
 				}
 				
