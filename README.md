@@ -56,7 +56,7 @@ Installation on Linux for crosscompilation
 
 1 Clone repository
 
-    git clone --recursive https://github.com/RetardMode/lime
+    git clone --recursive https://github.com/Ret-Mode/lime
 
 2 Setup:
 
