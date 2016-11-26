@@ -1,12 +1,12 @@
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE.md)
 
 
-
+status: untested after latest updates
 
 Lime Mingw fork
 ===============
 
-This is a Mingw fork of Lime:
+This is a Mingw fork of Lime (v. 2.9.1, works with openfl 3.6.1):
     
     https://github.com/openfl/lime
 
@@ -22,13 +22,15 @@ Installation on Win
 
 1 Clone repository
 
-    git clone --recursive https://github.com/RetardMode/lime
+    git clone --recursive https://github.com/Ret-Mode/lime
 
 2 Setup:
 
     haxelib dev lime lime
     
-2a Rebuild tools (from lime/${version}/tools folder):
+2a Rebuild tools:
+
+    cd tools
 
     haxe tools.hxml
     
@@ -42,11 +44,11 @@ Installation on Win
 
 4 Build for 64 bits:
 
-    haxelib run lime rebuild windows -Dmingw -64 -DHXCPP_M64
+    haxelib run lime rebuild windows -Dmingw -64
     
 5 Build projects with:
 
-    haxelib run lime build windows -Dmingw -64
+    haxelib run lime build windows -Dmingw (add -64 for 64 bit builds)
 
 
 Installation on Linux for crosscompilation
@@ -54,7 +56,7 @@ Installation on Linux for crosscompilation
 
 1 Clone repository
 
-    git clone --recursive https://github.com/RetardMode/lime
+    git clone --recursive https://github.com/Ret-Mode/lime
 
 2 Setup:
 
@@ -113,25 +115,7 @@ A: Lime.ndll in 32 bits is needed for compilation script, even for 64 bit target
 
 Q: I've compiled lime for 32 and 64 bits with MinGW, and now compiling apps does not work. I got various errors about missing libs, what's wrong?
 
-A: If You've comiled with MinGW-w64, lime.ndll will be linked with shared versions of lib-gcc and lib-stdc++. It should be that way, becouse linking those libraries statically will force You to follow GPL license for those libs, and in fact, in Your application. MinGW-w64 by default is linking those libs dynamically, but, as side effect, those libraries should be somewhere in Your PATH. Usually You will have Your Mingw bin folder in PATH, but if not, You may encounter various errors. Important thing to note is that, You need to have in PATH libraries for 32 bit, not for 64 bit. Build process uses 32 bit version of lime.ndll, so 32 bit versions of those libs should be accesible. On the other hand, TDM-GCC have those libs linked statically, so I think the best solution would be to pass "-shared-libgcc -shared-libstdc++" into linker while compiling with it.
-
-Q: So, for 64 bit target, shouldn't be 64 bit versions of gcc and std libs accesible also?
-
-A: With proper configuration of hxcpp You should have those libs in folder 
-    /Export/cpp/Windows/obj
-Just copy them into 
-    /Export/cpp/Windows/bin
-folder, and App should work. Alternatively, You can copy missing libs from 64 bit MinGW root, or editing Your
-    hxcpp/$(version)/toolchain/mingw-toolchain.xml
-lines:
- 
-    <copyFile toolId="exe" name="libstdc++-6.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
-
-into:
-
-    <copyFile toolId="exe" name="../bin/libstdc++-6.dll" from="${MINGW_ROOT}/bin" allowMissing="true" unless="no_shared_libs"/>
-
-etc. This way those libs should be in Your app folder.
+A: If You've comiled with MinGW-w64 (not TDM version), by default compiler is linking c and cpp runtime dynamically. Important thing to note is that, You need to have those libs (libsjlj/libdw2/libseh, libstd++ and libwinpthreads) in folder where neko is installed (so that lime build tools could run), and in PATH (so that Your applications could run). To avoid that, You could add in hxcpp switches for linking those libs statically (--static-libgcc and --static-libstdc++).
 
 Q: I'm missing shlobj.h or shobjinl.h.
 
